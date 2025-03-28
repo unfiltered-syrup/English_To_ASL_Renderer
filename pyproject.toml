@@ -1,0 +1,5 @@
+[project]
+name = "English-To-ASL-Renderer"
+version = "0.1.0"
+description = "A translation and hand-rendering pipeline for American Sign Language"
+readme = "README.md"
