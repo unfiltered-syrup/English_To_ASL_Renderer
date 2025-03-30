@@ -1,4 +1,5 @@
 from preprocessing import VideoParser
+from renderer import GestureRenderer
 import argparse
 
 def main():
@@ -15,10 +16,14 @@ def main():
         case 'parse_video':
             video_parser = VideoParser()
             video_parser.parse_video(args.video_path)
-        # create a dataset using all videos in data folder (in progress)
+        # create a dataset using all videos in data folder (Note: takes ~ 4 hours to run this on all data)
         case 'create_dataset':
             video_parser = VideoParser()
             video_parser.create_dataset()
+        case 'render':
+            video_renderer = GestureRenderer()
+            video_renderer.fetch_all_data()
+
 
 
 if __name__ == '__main__':
