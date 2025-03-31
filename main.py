@@ -6,6 +6,7 @@ def main():
     parse = argparse.ArgumentParser()
     parse.add_argument('--action', type=str, default='parse_video')
     parse.add_argument('--video_path', type=str, default='')
+    parse.add_argument('--gloss', type=str, default='action')
 
     args = parse.parse_args()
     action = args.action
@@ -20,9 +21,12 @@ def main():
         case 'create_dataset':
             video_parser = VideoParser()
             video_parser.create_dataset()
-        case 'render':
+        case 'render_all':
             video_renderer = GestureRenderer()
             video_renderer.fetch_all_data()
+        case 'render':
+            video_renderer = GestureRenderer()
+            video_renderer.render_gesture_from_gloss(args.gloss)
 
 
 
