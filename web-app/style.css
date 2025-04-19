@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Zilla Slab", serif;
+    line-height: 1.6;
+    background-color: #2a5a7c;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 50px 50px 50px 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 50vw;
+    min-width: 500px;
+    text-align: center;
+}
+
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+h2 {
+    color: #34495e;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 500;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 5px;
+    text-align: left;
+}
+
+.output-container {
+    margin-top: 10px;
+
+}
+
+#gesture-window {
+    width: 100%;
+    min-height: 60vh;
+
+    background-color: #e9ecef;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 100px;
+}
+
+.gesture-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    width: 100%;
+}
+
+#gesture-display {
+    max-width: 95%;
+    max-height: 60vh;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+#status-message {
+    margin-top: 10px;
+    color: #6c757d;
+    font-style: italic;
+    min-height: 1.6em;
+    padding: 0 10px;
+}
+
+.input-overlay-container {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    width: calc(100% - 30px);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-overlay-container textarea {
+    flex-grow: 1;
+    padding: 10px;
+    border: 2px solid;
+    border-color: rgba(28, 139, 172 , 0.5);
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: none;
+    height: 50px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #333;
+}
+
+.input-overlay-container textarea:focus {
+    outline: none;
+    border: 3px solid;
+    border-color: rgba(28, 139, 172 , 0.5);
+}
+
+.input-overlay-container button {
+    padding: 10px 20px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    white-space: nowrap;
+    height: 50px;
+}
+
+.input-overlay-container button:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+}
+
+.input-overlay-container button:active {
+    background-color: #e59866;
+    color: black;
+    transform: scale(0.9);
+}
+
+#translate-button {
+    font-family: "Zilla Slab", serif;
+}
+
+#gesture-display[src=""] {
+  display: none;
+}
