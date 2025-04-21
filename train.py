@@ -4,6 +4,7 @@ import pandas as pd
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet, stopwords
+
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
 nltk.download('wordnet')
@@ -29,10 +30,8 @@ def basic_cleaning(text: str) -> str:
     Lowercase, normalize times, preserve DESC- tags, hyphens, apostrophes, periods.
     """
     text = text.lower()
-    # Normalize p.m. and a.m. into DESC- tokens
     text = re.sub(r"\bp\.m\.\b", "desc-p.m.", text)
     text = re.sub(r"\ba\.m\.\b", "desc-a.m.", text)
-    # Keep letters, digits, periods, hyphens, apostrophes, and spaces
     text = re.sub(r"[^a-z0-9\.\-'\s]", " ", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text
@@ -44,7 +43,6 @@ def tokenize_and_lemmatize(text: str) -> list:
     tokens = word_tokenize(text)
     converted = []
     for token in tokens:
-        # Convert possessive 's
         if token.endswith("'s"):
             base = token[:-2]
             if base:
@@ -53,14 +51,12 @@ def tokenize_and_lemmatize(text: str) -> list:
         else:
             converted.append(token)
 
-    # POS tagging and lemmatization
     tagged = nltk.pos_tag(converted)
     lemmatizer = WordNetLemmatizer()
     lems = []
     for word, tag in tagged:
         wn_tag = get_wordnet_pos(tag)
-        lem = lemmatizer.lemmatize(word, wn_tag)
-        lems.append(lem)
+        lems.append(lemmatizer.lemmatize(word, wn_tag))
     return lems
 
 def remove_stopwords(tokens: list) -> list:
@@ -75,9 +71,9 @@ def preprocess_and_gloss(text: str) -> str:
     """
     Full pipeline to produce ASL-style gloss aligned with ground truth.
     """
-    cleaned = basic_cleaning(text)
+    cleaned    = basic_cleaning(text)
     lemmatized = tokenize_and_lemmatize(cleaned)
-    filtered = remove_stopwords(lemmatized)
+    filtered   = remove_stopwords(lemmatized)
     return " ".join(filtered).upper()
 
 def main():
