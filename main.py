@@ -8,6 +8,8 @@ def main():
     parse = argparse.ArgumentParser()
     parse.add_argument('--action', type=str, default='parse_video')
     parse.add_argument('--video_path', type=str, default='')
+    parse.add_argument('--video_id', type=str, default='')
+
     parse.add_argument('--gloss', type=str, default='action')
     parse.add_argument('--target_gloss', type=str, default='computer')
 
@@ -19,8 +21,32 @@ def main():
         # parses a single video, given argument video_path
         case 'parse_video':
             video_parser = VideoParser()
-            video_parser.parse_video(args.video_path)
-        # create a dataset using all videos in data folder (Note: takes ~ 5 hours to run this on all data)
+            landmark_dir = "./landmark_data/"
+            video_path = args.video_path
+
+            import glob
+            import os
+            import pandas as pd
+
+            left_landmarks, right_landmarks = video_parser.parse_video(args.video_path, args.video_id, args.gloss)
+            npz_filename = f"{args.video_id}.npz"
+            npz_filepath = os.path.join(landmark_dir, npz_filename)
+            np.savez_compressed(
+                npz_filepath,
+                left=np.array(left_landmarks, dtype=object),
+                right=np.array(right_landmarks, dtype=object)
+            )
+            df = pd.read_csv("gloss_to_gesture_mapping_condensed.csv")
+            new_index = len(df)
+            df.loc[new_index] = {
+                'id': args.video_id,
+                'gloss': args.gloss,
+                'landmark_file': npz_filename
+            }
+
+            df.to_csv("gloss_to_gesture_mapping_condensed.csv")
+
+            # create a dataset using all videos in data folder (Note: takes ~ 5 hours to run this on all data)
         case 'create_dataset':
             video_parser = VideoParser()
             video_parser.create_dataset()

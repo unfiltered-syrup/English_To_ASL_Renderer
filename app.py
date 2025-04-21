@@ -10,6 +10,9 @@ import cv2
 from renderer import GestureRenderer
 import sys
 import os
+from src.model.english_to_gloss import *
+
+nltk.download('averaged_perceptron_tagger_eng')
 
 def resource_path(relative_path):
     try:
@@ -49,8 +52,9 @@ def translate_sentence():
     # this array holds glosses to be rendered, if a gloss is not found, its letters are added to the array individually
     glosses_to_render = []
     known_glosses = set(renderer.gloss_gesture_mapping.keys())
-
-    for word in processed_sentence.split():
+    translated_sentence = preprocess_and_gloss(processed_sentence).lower()
+    print(f"Original sentence: {processed_sentence}, translated sentence: {translated_sentence}")
+    for word in translated_sentence.split():
         # try to find the gloss from the gloss_gesture_mapping
         if word in known_glosses:
             print(f"Found known gloss: {word}")
