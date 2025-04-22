@@ -47,7 +47,7 @@ async function translateSentence() {
 
 async function renderGlossesSequentially(glosses) {
     gestureDisplay.src = "";
-    await sleep(50);
+    await sleep(15);
 
     for (const gloss of glosses) {
         statusMessage.textContent = `Rendering: ${gloss}`;
@@ -56,7 +56,7 @@ async function renderGlossesSequentially(glosses) {
             if (!response.ok) {
                  console.warn(`Could not fetch frames for "${gloss}", status: ${response.status}. Skipping.`);
                  statusMessage.textContent = `Skipping: ${gloss} (not found)`;
-                 await sleep(1000);
+                 await sleep(100);
                  continue;
             }
 
@@ -65,7 +65,7 @@ async function renderGlossesSequentially(glosses) {
             if (data.error) {
                 console.warn(`Server error fetching frames for "${gloss}": ${data.error}. Skipping.`);
                 statusMessage.textContent = `Skipping: ${gloss} (error)`;
-                await sleep(1000);
+                await sleep(100);
                 continue;
             }
 
@@ -75,17 +75,17 @@ async function renderGlossesSequentially(glosses) {
                     gestureDisplay.src = `data:image/jpeg;base64,${frameData}`;
                     await sleep(40);
                 }
-                await sleep(500);
+                await sleep(100);
             } else {
                  console.warn(`No frames returned for "${gloss}". Skipping.`);
                  statusMessage.textContent = `Skipping: ${gloss} (no frames)`;
-                 await sleep(1000);
+                 await sleep(100);
             }
 
         } catch (error) {
             console.error(`Error fetching/rendering frames for "${gloss}":`, error);
             statusMessage.textContent = `Error rendering: ${gloss}`;
-            await sleep(1000);
+            await sleep(100);
 
         }
     }
