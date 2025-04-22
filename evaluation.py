@@ -1,52 +1,41 @@
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support, jaccard_score
-from sklearn.preprocessing import MultiLabelBinarizer
-from train import preprocess_and_gloss
+from datasets import Dataset
+import evaluate
+from transformers import T5ForConditionalGeneration, T5Tokenizer
 
-def evaluate_exact(df, true_col='gloss', pred_col='asl_gloss'):
-    true_labels = df[true_col].astype(str).str.strip().str.upper()
-    pred_labels = df[pred_col].astype(str).str.strip().str.upper()
-    accuracy = accuracy_score(true_labels, pred_labels)
-    precision, recall, f1, _ = precision_recall_fscore_support(
-        true_labels, pred_labels, average='weighted', zero_division=0
+def generate_pred(batch):
+    input_ids = tokenizer(
+        batch["text"],
+        return_tensors="pt",
+        truncation=True,
+        max_length=128
+    ).input_ids
+    out = model.generate(input_ids)
+    batch["pred"] = tokenizer.decode(out[0], skip_special_tokens=True)
+    return batch
+
+if __name__ == "__main__":
+    # 1) Load model & tokenizer
+    model     = T5ForConditionalGeneration.from_pretrained("./final_model")
+    tokenizer = T5Tokenizer.from_pretrained("t5-base")
+
+    # 2) Load test set
+    df = pd.read_csv("test_processed.csv")
+    ds = Dataset.from_pandas(df)
+
+    # 3) Predictions
+    preds = ds.map(generate_pred, batched=False)
+
+    # 4) Exact Match
+    refs = preds["gloss"]
+    hyps = preds["pred"]
+    exact = sum(p == r for p, r in zip(hyps, refs)) / len(refs)
+    print(f"Exact Match: {exact:.4f}")
+
+    # 5) BLEU Score
+    bleu = evaluate.load("bleu")
+    bleu_score = bleu.compute(
+        predictions=hyps,
+        references=[r.split() for r in refs]
     )
-    return accuracy, precision, recall, f1
-
-def evaluate_jaccard(df, true_col='gloss', pred_col='asl_gloss'):
-    true_tokens = df[true_col].astype(str).str.upper().str.split()
-    pred_tokens = df[pred_col].astype(str).str.upper().str.split()
-    mlb = MultiLabelBinarizer().fit(true_tokens + pred_tokens)
-    true_bin = mlb.transform(true_tokens)
-    pred_bin = mlb.transform(pred_tokens)
-    return jaccard_score(true_bin, pred_bin, average='samples')
-
-if __name__ == '__main__':
-    df = pd.read_csv('train.csv')
-    train_df, test_df = train_test_split(
-        df, test_size=0.2, random_state=42, shuffle=True
-    )
-
-    test_df = test_df.copy()
-    test_df['asl_gloss'] = test_df['text'].apply(preprocess_and_gloss)
-
-    # Exact-match metrics on test split
-    accuracy, precision, recall, f1 = evaluate_exact(test_df)
-    print("Exact Match Evaluation (20% test set):")
-    print(f"  Accuracy : {accuracy:.4f}")
-    print(f"  Precision: {precision:.4f}")
-    print(f"  Recall   : {recall:.4f}")
-    print(f"  F1       : {f1:.4f}\n")
-
-    # Token-level Jaccard on test split
-    jacc = evaluate_jaccard(test_df)
-    print(f"Token-Level Jaccard Similarity: {jacc:.4f}\n")
-
-    # Show some mismatches
-    mismatches = test_df[
-        test_df['gloss'].astype(str).str.strip().str.upper()
-        != test_df['asl_gloss'].astype(str).str.strip().str.upper()
-    ]
-    if not mismatches.empty:
-        print("Sample mismatches on test set:")
-        print(mismatches[['gloss', 'asl_gloss']].head(10))
+    print(f"BLEU Score: {bleu_score['bleu']:.4f}")
