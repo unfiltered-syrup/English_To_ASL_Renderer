@@ -20,8 +20,8 @@ This project combines natural language processing with computer vision technique
 1.  **Frontend (WebView):** A clean web interface allows users to input English text.
 2.  **Backend (Flask):** The Flask server receives the text input from the frontend.
 3.  **Translation (Fine-tuned T5):** The input text is passed to a fine-tuned T5 model specialized for English-to-ASL gloss translation.
-4.  **Gesture Logic (Backend):** The backend interprets the generated ASL gloss and calculates the corresponding sequence of hand poses and movements, likely referencing MediaPipe Hand landmark definitions.
-5.  **Rendering (WebView + MediaPipe):** The pose sequence data is sent back to the frontend. The WebView interface uses this data, potentially leveraging MediaPipe's visualization utilities or custom rendering logic based on MediaPipe landmarks, to display the animated ASL hand gestures.
+4.  **Gesture Logic (Backend):** The backend interprets the generated ASL gloss and calculates the corresponding sequence of hand poses and movements.
+5.  **Rendering (WebView + MediaPipe):** The pose sequence data is sent back to the frontend. The WebView interface uses this data, leveraging MediaPipe's visualization utilities to display the animated ASL hand gestures.
 
 ## Tech Stack 🔧
 
@@ -38,7 +38,7 @@ Follow these steps to get the project running locally.
 
 * Python 3.8+ and Pip
 * install "requirements.txt"
-* 
+
 ### Installation
 
 1.  **Clone the repository:**
@@ -58,6 +58,27 @@ Follow these steps to get the project running locally.
 ```bash
     python app.py
 ```
+
+
+### Adding a New Gloss
+
+Our program allows user to add additional glosses if anything is missing. 
+
+You will need a video showing the sign, and the corresponding gloss.
+
+For example, suppose I have "123123.mp4", which is a video showcasing the gloss "Apple", run:
+
+```bash
+    python main.py --gloss "Apple" --video_path "123123.mp4" --video_id "123123" --action "parse_video"
+```
+
+After running this line, check "gloss_to_gesture_mapping_condensed.csv" to see if newest entry is added.
+
+!!! Important: 
+Don't add duplicate gloss, at the moment it may break the application unless the gloss gesture mapping is reset.
+
+
+### Easier Setup:
 
 I've included a .exe file for Windows users if set up is too complicated.
 
