@@ -49,7 +49,9 @@ Follow these steps to get the project running locally.
     ```bash
     pip install -r requirements.txt
     ```
-4.  **Download/Drop the fine-tuned T5 model in the root folder:**
+4.  **Download model from this link: https://www.dropbox.com/scl/fo/35g0b131765pte1b5rowi/AAmkHVrfDmpOQQ_6cp7D0Pk?rlkey=hcliy2jamdlb8kqfuozedya2y&st=wuxkb0al&dl=0**
+
+5.  **Drop the fine-tuned T5 model in the root folder:**
 
 ### Running the Application
 
@@ -58,6 +60,9 @@ Follow these steps to get the project running locally.
 ```
 
 I've included a .exe file for Windows users if set up is too complicated.
+
+First time running the executable may be slow since it will attempt to install all dependencies.
+
 
 ## Acknowledgements 🙏
 

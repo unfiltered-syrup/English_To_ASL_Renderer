@@ -5,7 +5,7 @@ a = Analysis(
     ['app.py'],
     pathex=[],
     binaries=[],
-    datas=[('web-app', 'web-app'), ('landmark_data', 'landmark_data'), ('gloss_to_gesture_mapping_condensed.csv', '.'), ('gloss_to_gesture_mapping.csv', '.')],
+    datas=[('web-app', 'web-app'), ('landmark_data', 'landmark_data'), ('gloss_to_gesture_mapping_condensed.csv', '.'), ('gloss_to_gesture_mapping.csv', '.'), ('checkpoint-29604', 'checkpoint-29604')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
