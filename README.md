@@ -2,7 +2,7 @@
 
 ## Team Member
 
-Dizhou Zhang, Jaden Wang, Hua-Yuan Chum Yashwanth Devabathini
+Dizhou Zhang, Jaden Wang, Hua-Yuan Chu, Yashwanth Devabathini
 
 ## Project Overview
 
