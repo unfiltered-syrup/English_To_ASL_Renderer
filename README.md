@@ -1,5 +1,10 @@
 # English To ASL Renderer
 
+## Team Member: 
+Dizhou Zhang, Jaden Wang, Hua-Yuan Chum Yashwanth Devabathini
+
+Sign languages are the primary mode of communication for millions of Deaf and hard-of-hearing individuals worldwide. However, a significant communication barrier exists between sign language users and those who rely on spoken or written languages, as most people are not fluent in sign language. While technologies like speech-to-text transcription have improved accessibility, they do not fully bridge the gap, as text-based solutions lack the expressiveness and grammar structure of sign languages. A real-time speech/text-to-sign language conversion system could enable more inclusive communication by instantly translating spoken or written language into animated sign language gestures. Existing solutions are often limited by high computational costs, reliance on cloud-based processing, or the lack of real-time capabilities. By leveraging lightweight NLP models and TinyML-based optimization, we aim to develop a reliable, real-time, and mobile-friendly solution that enhances accessibility for Deaf communities in everyday interactions.
+
 ## Overview
 
 An American Sign Language translation and rendering pipeline. 
