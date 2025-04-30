@@ -97,3 +97,4 @@ First time running the executable may be slow since it will attempt to install a
 
 * Google's [MediaPipe](https://developers.google.com/mediapipe) team for the hand tracking toolkit.
 * The Hugging Face team for the `transformers` library and T5 model access.
+* Sincere thanks to Professor Trevor Adriaanse for his support and guidance throughout the project.
